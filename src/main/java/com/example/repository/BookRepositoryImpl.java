@@ -1,5 +1,6 @@
 package com.example.repository;
 
+import com.example.exception.DataProcessingException;
 import com.example.model.Book;
 import java.util.List;
 import org.hibernate.Session;
@@ -31,7 +32,7 @@ public class BookRepositoryImpl implements BookRepository {
             if (transaction != null) {
                 transaction.rollback();
             }
-            throw new RuntimeException("Can't insert book " + book, e);
+            throw new DataProcessingException("Can't insert book " + book, e);
         } finally {
             if (session != null) {
                 session.close();
@@ -45,7 +46,7 @@ public class BookRepositoryImpl implements BookRepository {
             return session.createQuery(
                     "SELECT b FROM Book b", Book.class).getResultList();
         } catch (Exception e) {
-            throw new RuntimeException("Can`t get all book from DB", e);
+            throw new DataProcessingException("Can`t get all book from DB", e);
         }
     }
 }
