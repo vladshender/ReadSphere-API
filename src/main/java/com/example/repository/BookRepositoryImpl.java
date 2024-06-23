@@ -1,7 +1,9 @@
 package com.example.repository;
 
 import com.example.exception.DataProcessingException;
+import com.example.exception.EntityNotFoundException;
 import com.example.model.Book;
+import jakarta.persistence.NoResultException;
 import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -37,6 +39,17 @@ public class BookRepositoryImpl implements BookRepository {
             if (session != null) {
                 session.close();
             }
+        }
+    }
+
+    @Override
+    public Book getBookById(Long id) {
+        try (Session session = sessionFactory.openSession()) {
+            return session.createQuery("FROM Book b WHERE b.id = :id", Book.class)
+                    .setParameter("id", id)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            throw new EntityNotFoundException("Can`t get book by id: " + id, e);
         }
     }
 
