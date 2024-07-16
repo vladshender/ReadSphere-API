@@ -1,12 +1,14 @@
 package com.example.repository;
 
 import com.example.model.Book;
-import java.util.List;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 
-public interface BookRepository {
-    Book save(Book book);
+public interface BookRepository extends JpaRepository<Book, Long> {
 
-    Book getBookById(Long id);
-
-    List<Book> findAll();
+    @Modifying
+    @Query("UPDATE Book b SET b.author = :author, b.title = :title, "
+            + "b.description = :description WHERE b.id = :id")
+    void updateBookDetails(Long id, String author, String title, String description);
 }
