@@ -3,9 +3,11 @@ package com.example.service;
 import com.example.dto.BookDto;
 import com.example.dto.BookSearchParameters;
 import com.example.dto.CreateBookRequestDto;
+import com.example.dto.UpdateBookDto;
+import com.example.exception.EntityNotFoundException;
 import com.example.mapper.BookMapper;
 import com.example.model.Book;
-import com.example.repository.book.spec.BookRepository;
+import com.example.repository.book.BookRepository;
 import com.example.repository.book.BookSpecificationBuilder;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -46,8 +48,12 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void updateBookDetails(Long id, String author, String title, String description) {
-        bookRepository.updateBookDetails(id, author, title, description);
+    public void updateBookDetails(Long id, UpdateBookDto updateBookDto) {
+        Book book = bookRepository.findById(id).stream()
+                .findAny()
+                .orElseThrow(() -> new EntityNotFoundException("Can`t get book by id: " + id));
+        bookMapper.updateBookFromDto(updateBookDto, book);
+        bookRepository.save(book);
     }
 
     @Override

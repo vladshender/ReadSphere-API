@@ -8,8 +8,4 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface BookRepository extends JpaRepository<Book, Long>, JpaSpecificationExecutor<Book> {
 
-    @Modifying
-    @Query("UPDATE Book b SET b.author = :author, b.title = :title, "
-            + "b.description = :description WHERE b.id = :id")
-    void updateBookDetails(Long id, String author, String title, String description);
 }
