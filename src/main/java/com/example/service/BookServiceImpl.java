@@ -2,7 +2,7 @@ package com.example.service;
 
 import com.example.dto.BookDto;
 import com.example.dto.CreateBookRequestDto;
-import com.example.dto.UpdateBookDto;
+import com.example.dto.UpdateBookRequestDto;
 import com.example.exception.EntityNotFoundException;
 import com.example.mapper.BookMapper;
 import com.example.model.Book;
@@ -21,7 +21,8 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDto getBookById(Long id) {
-        Book book = bookRepository.getReferenceById(id);
+        Book book = bookRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
         return bookMapper.toDto(book);
     }
 
@@ -43,10 +44,10 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
-    public void updateBookDetails(Long id, UpdateBookDto updateBookDto) {
+    public BookDto updateBookDetails(Long id, UpdateBookRequestDto updateBookRequestDto) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Can`t get book by id: " + id));
-        bookMapper.updateBookFromDto(updateBookDto, book);
-        bookRepository.save(book);
+                .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
+        bookMapper.updateBookFromDto(updateBookRequestDto, book);
+        return bookMapper.toDto(bookRepository.save(book));
     }
 }

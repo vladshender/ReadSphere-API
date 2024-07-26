@@ -3,7 +3,7 @@ package com.example.mapper;
 import com.example.config.MapperConfig;
 import com.example.dto.BookDto;
 import com.example.dto.CreateBookRequestDto;
-import com.example.dto.UpdateBookDto;
+import com.example.dto.UpdateBookRequestDto;
 import com.example.model.Book;
 import java.util.List;
 import org.mapstruct.Mapper;
@@ -17,5 +17,5 @@ public interface BookMapper {
 
     List<BookDto> toDtoList(List<Book> books);
 
-    void updateBookFromDto(UpdateBookDto updateBookDto, @MappingTarget Book book);
+    void updateBookFromDto(UpdateBookRequestDto updateBookRequestDto, @MappingTarget Book book);
 }
