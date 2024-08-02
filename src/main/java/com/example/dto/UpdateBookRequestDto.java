@@ -1,30 +1,25 @@
 package com.example.dto;
 
 import jakarta.validation.constraints.DecimalMin;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import lombok.Data;
 
 @Data
 public class UpdateBookRequestDto {
-    @NotNull
+    @NotBlank
     private String title;
 
-    @NotNull
+    @NotBlank
     private String author;
 
-    @NotNull
-    @Size(min = 13, max = 13)
-    private String isbn;
-
-    @NotNull
+    @NotBlank
     @DecimalMin(value = "10")
     private BigDecimal price;
 
-    @NotNull
+    @NotBlank
     private String description;
 
-    @NotNull
+    @NotBlank
     private String coverImage;
 }
