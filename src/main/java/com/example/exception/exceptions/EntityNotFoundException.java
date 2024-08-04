@@ -1,4 +1,4 @@
-package com.example.exception;
+package com.example.exception.exceptions;
 
 public class EntityNotFoundException extends RuntimeException {
     public EntityNotFoundException(String message) {

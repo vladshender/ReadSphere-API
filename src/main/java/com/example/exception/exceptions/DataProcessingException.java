@@ -1,4 +1,4 @@
-package com.example.exception;
+package com.example.exception.exceptions;
 
 public class DataProcessingException extends RuntimeException {
     public DataProcessingException(String message, Throwable cause) {

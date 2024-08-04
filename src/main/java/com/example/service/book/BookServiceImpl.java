@@ -1,10 +1,10 @@
-package com.example.service;
+package com.example.service.book;
 
-import com.example.dto.BookDto;
-import com.example.dto.BookSearchParameters;
-import com.example.dto.CreateBookRequestDto;
-import com.example.dto.UpdateBookRequestDto;
-import com.example.exception.EntityNotFoundException;
+import com.example.dto.book.BookDto;
+import com.example.dto.book.BookSearchParameters;
+import com.example.dto.book.CreateBookRequestDto;
+import com.example.dto.book.UpdateBookRequestDto;
+import com.example.exception.exceptions.EntityNotFoundException;
 import com.example.mapper.BookMapper;
 import com.example.model.Book;
 import com.example.repository.book.BookRepository;

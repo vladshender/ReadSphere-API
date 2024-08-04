@@ -1,9 +1,9 @@
 package com.example.mapper;
 
 import com.example.config.MapperConfig;
-import com.example.dto.BookDto;
-import com.example.dto.CreateBookRequestDto;
-import com.example.dto.UpdateBookRequestDto;
+import com.example.dto.book.BookDto;
+import com.example.dto.book.CreateBookRequestDto;
+import com.example.dto.book.UpdateBookRequestDto;
 import com.example.model.Book;
 import java.util.List;
 import org.mapstruct.Mapper;
