@@ -1,9 +1,9 @@
 package com.example.validation;
 
-import com.example.exception.exceptions.PasswordValidationException;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import java.lang.reflect.Field;
+import java.util.Objects;
+import org.springframework.beans.BeanWrapperImpl;
 
 public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Object> {
     private String firstFieldName;
@@ -17,22 +17,8 @@ public class FieldMatchValidator implements ConstraintValidator<FieldMatch, Obje
 
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
-        try {
-            Field firstField = value.getClass().getDeclaredField(firstFieldName);
-            Field secondField = value.getClass().getDeclaredField(secondFieldName);
-            firstField.setAccessible(true);
-            secondField.setAccessible(true);
-
-            Object firstValue = firstField.get(value);
-            Object secondValue = secondField.get(value);
-
-            if (!(firstValue != null && firstValue.equals(secondValue))) {
-                throw new PasswordValidationException("Password must match");
-            }
-
-            return true;
-        } catch (Exception e) {
-            throw new IllegalArgumentException(e);
-        }
+        Object field = new BeanWrapperImpl(value).getPropertyValue(this.firstFieldName);
+        Object fieldMatch = new BeanWrapperImpl(value).getPropertyValue(this.secondFieldName);
+        return Objects.equals(field, fieldMatch);
     }
 }

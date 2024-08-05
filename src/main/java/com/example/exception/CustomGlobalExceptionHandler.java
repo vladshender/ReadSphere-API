@@ -1,6 +1,5 @@
 package com.example.exception;
 
-import com.example.exception.exceptions.PasswordValidationException;
 import com.example.exception.exceptions.RegistrationException;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -20,7 +19,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler {
-
     private static final String TIMESTAMP = "timestamp";
     private static final String STATUS = "status";
     private static final String ERRORS = "errors";
@@ -49,23 +47,10 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
     ) {
         Map<String, Object> body = new LinkedHashMap<>();
         body.put(TIMESTAMP, LocalDateTime.now());
-        body.put(STATUS, HttpStatus.UNAUTHORIZED);
+        body.put(STATUS, HttpStatus.CONFLICT);
         body.put(ERRORS, List.of(ex.getMessage()));
 
-        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
-    }
-
-    @ExceptionHandler(PasswordValidationException.class)
-    protected ResponseEntity<Object> handlePasswordValidationException(
-            PasswordValidationException ex,
-            WebRequest request
-    ) {
-        Map<String, Object> body = new LinkedHashMap<>();
-        body.put(TIMESTAMP, LocalDateTime.now());
-        body.put(STATUS, HttpStatus.BAD_REQUEST);
-        body.put(ERRORS, List.of(ex.getMessage()));
-
-        return new ResponseEntity<>(body, HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(body, HttpStatus.CONFLICT);
     }
 
     private String getErrorMessage(ObjectError e) {
