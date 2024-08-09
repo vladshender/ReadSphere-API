@@ -8,7 +8,7 @@ databaseChangeLog:
             columns:
               - column:
                   name: role
-                  value: ADMIN
+                  value: ROLE_ADMIN
 
   - changeSet:
       id: add-role-user
@@ -19,4 +19,4 @@ databaseChangeLog:
             columns:
               - column:
                   name: role
-                  value: USER
+                  value: ROLE_USER
