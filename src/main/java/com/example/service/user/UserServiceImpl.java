@@ -5,8 +5,10 @@ import com.example.dto.user.UserResponseDto;
 import com.example.exception.exceptions.RegistrationException;
 import com.example.mapper.UserMapper;
 import com.example.model.Role;
+import com.example.model.ShoppingCart;
 import com.example.model.User;
 import com.example.repository.role.RoleRepository;
+import com.example.repository.shoppingcart.ShoppingCartRepository;
 import com.example.repository.user.UserRepository;
 import java.util.HashSet;
 import java.util.NoSuchElementException;
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService {
     private final RoleRepository roleRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final ShoppingCartRepository shoppingCartRepository;
 
     @Override
     public UserResponseDto register(UserRegistrationRequestDto requestDto)
@@ -37,6 +40,15 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new NoSuchElementException("Role not found"));
         user.setRoles(new HashSet<>(Set.of(userRole)));
         userRepository.save(user);
+        User userWithId = userRepository.findByEmail(requestDto.getEmail())
+                .orElseThrow(
+                        () -> new NoSuchElementException(
+                        "Can`t find user by email:" + requestDto.getEmail()
+                        )
+                );
+        ShoppingCart shoppingCart = new ShoppingCart();
+        shoppingCart.setUser(userWithId);
+        shoppingCartRepository.save(shoppingCart);
         return userMapper.toDto(user);
     }
 }
