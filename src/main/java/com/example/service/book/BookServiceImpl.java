@@ -1,6 +1,7 @@
 package com.example.service.book;
 
 import com.example.dto.book.BookDto;
+import com.example.dto.book.BookDtoWithoutCategoryIds;
 import com.example.dto.book.BookSearchParameters;
 import com.example.dto.book.CreateBookRequestDto;
 import com.example.dto.book.UpdateBookRequestDto;
@@ -66,5 +67,10 @@ public class BookServiceImpl implements BookService {
                 .stream()
                 .map(bookMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public List<BookDtoWithoutCategoryIds> getBooksByCategoryId(Long id) {
+        return bookMapper.toDtoWithoutCategories(bookRepository.findAllByCategories_Id(id));
     }
 }
