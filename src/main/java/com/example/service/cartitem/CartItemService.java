@@ -6,7 +6,7 @@ import com.example.dto.cartitem.CartItemUpdateDto;
 import com.example.model.ShoppingCart;
 
 public interface CartItemService {
-    CartItemDto save(CartItemRequestDto requestDto);
+    void save(CartItemRequestDto requestDto);
 
     CartItemDto updateById(Long id, CartItemUpdateDto updateDto);
 

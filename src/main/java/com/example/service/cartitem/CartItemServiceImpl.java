@@ -7,7 +7,6 @@ import com.example.mapper.CartItemMapper;
 import com.example.model.CartItem;
 import com.example.model.ShoppingCart;
 import com.example.model.User;
-import com.example.repository.book.BookRepository;
 import com.example.repository.cartitem.CartItemRepository;
 import com.example.repository.shoppingcart.ShoppingCartRepository;
 import com.example.repository.user.UserRepository;
@@ -25,15 +24,14 @@ public class CartItemServiceImpl implements CartItemService {
     private final CartItemRepository cartItemRepository;
     private final UserRepository userRepository;
     private final ShoppingCartRepository shoppingCartRepository;
-    private final BookRepository bookRepository;
     private final CartItemMapper cartItemMapper;
 
     @Override
-    public CartItemDto save(CartItemRequestDto requestDto) {
+    public void save(CartItemRequestDto requestDto) {
         CartItem cartItem = cartItemMapper.toModel(requestDto);
         ShoppingCart shoppingCartByAuthUser = getShoppingCart();
         cartItem.setShoppingCart(shoppingCartByAuthUser);
-        return cartItemMapper.toDto(cartItemRepository.save(cartItem));
+        cartItemRepository.save(cartItem);
     }
 
     @Override
