@@ -12,8 +12,6 @@ import com.example.repository.book.BookRepository;
 import com.example.repository.cartitem.CartItemRepository;
 import com.example.repository.shoppingcart.ShoppingCartRepository;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,6 +29,8 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Transactional
     public ShoppingCartResponseDto save(User user, CartItemRequestDto requestDto) {
         CartItem cartItem = cartItemMapper.toModel(requestDto);
+        cartItem.setBook(bookRepository.findById(requestDto.getBookId())
+                .orElseThrow(() -> new NoSuchElementException("Cant find")));
         ShoppingCart shoppingCartByUser = findShoppingCartByUser(user);
         cartItem.setShoppingCart(shoppingCartByUser);
         CartItem savedCart = cartItemRepository.saveAndFlush(cartItem);
