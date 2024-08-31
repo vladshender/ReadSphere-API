@@ -1,4 +1,6 @@
 package com.example.dto.cartitem;
 
-public record CartItemUpdateDto(int quantity) {
+import jakarta.validation.constraints.Positive;
+
+public record CartItemUpdateDto(@Positive int quantity) {
 }
