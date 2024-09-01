@@ -14,4 +14,6 @@ public interface ShoppingCartService {
 
     ShoppingCartResponseDto getShoppingCart(User user);
 
+    void createShoppingCart(User user);
+
 }
