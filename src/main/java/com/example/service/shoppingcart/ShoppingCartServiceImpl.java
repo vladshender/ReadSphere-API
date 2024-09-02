@@ -64,18 +64,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         return shoppingCartMapper.toDto(findShoppingCartByUser(user));
     }
 
-    public ShoppingCart findShoppingCartByUser(User user) {
-        return shoppingCartRepository.findByUser(user)
-                .orElseThrow(() -> new EntityNotFoundException(
-                                "ShoppingCart not found by user_id: " + user.getId()
-                        )
-                );
-    }
-
     @Override
     public void createShoppingCart(User user) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setUser(user);
         shoppingCartRepository.save(shoppingCart);
+    }
+
+    private ShoppingCart findShoppingCartByUser(User user) {
+        return shoppingCartRepository.findByUser(user)
+                .orElseThrow(() -> new EntityNotFoundException(
+                                "ShoppingCart not found by user_id: " + user.getId()
+                        )
+                );
     }
 }
