@@ -31,6 +31,7 @@ public class CategoryController {
     private final CategoryService categoryService;
     private final BookService bookService;
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PostMapping
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @Operation(summary = "Create new category")
@@ -50,6 +51,7 @@ public class CategoryController {
         return categoryService.getById(id);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @PutMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.OK)
@@ -59,6 +61,7 @@ public class CategoryController {
         return categoryService.update(id, categoryDto);
     }
 
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
