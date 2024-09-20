@@ -4,9 +4,13 @@ import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
 import java.math.BigDecimal;
 import java.util.List;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
+import lombok.experimental.Accessors;
 
 @Data
+@Accessors(chain = true)
 public class UpdateBookRequestDto {
     @NotBlank
     private String title;
@@ -14,7 +18,7 @@ public class UpdateBookRequestDto {
     @NotBlank
     private String author;
 
-    @NotBlank
+    @NotNull
     @DecimalMin(value = "10")
     private BigDecimal price;
 
@@ -24,6 +28,6 @@ public class UpdateBookRequestDto {
     @NotBlank
     private String coverImage;
 
-    @NotBlank
+    @NotEmpty
     private List<Long> categories;
 }

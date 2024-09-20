@@ -1,0 +1,1 @@
+insert into categories (id, name, is_deleted) values (1, 'Books', false);
