@@ -4,6 +4,8 @@ import com.example.config.MapperConfig;
 import com.example.dto.orderitem.OrderItemResponseDto;
 import com.example.model.OrderItem;
 import java.util.List;
+import java.util.Set;
+import org.mapstruct.IterableMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -14,7 +16,8 @@ public interface OrderItemMapper {
     @Mapping(source = "book.id", target = "bookId")
     OrderItemResponseDto toDto(OrderItem orderItem);
 
-    List<OrderItemResponseDto> toDtoList(List<OrderItem> dtoList);
+    @IterableMapping(qualifiedByName = "itemToDto")
+    List<OrderItemResponseDto> toOrderItemDtoList(Set<OrderItem> dtoList);
 
     OrderItem toModel(OrderItem orderItem);
 }

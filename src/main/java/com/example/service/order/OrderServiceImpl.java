@@ -61,10 +61,6 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderResponseDto> getOrderByUser(User user) {
         List<Order> orders = orderRepository.findAllByUser(user);
-        if (orders.isEmpty()) {
-            throw new EntityNotFoundException(
-                    "Can't find order list for user by id: " + user.getId());
-        }
         return orderMapper.toListDto(orders);
     }
 
@@ -78,20 +74,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    @Transactional
-    public List<OrderItemResponseDto> getOrderItemsByOrderId(Long id) {
-        Order order = findById(id);
-        return orderItemMapper.toDtoList(orderItemsRepository.findAllByOrder(order));
+    public List<OrderItemResponseDto> getOrderItemsByOrderId(User user, Long orderId) {
+        Order order = orderRepository.findByIdAndUserId(orderId, user.getId())
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Can`t find order by order id: "
+                                + orderId
+                                + " and user id "
+                                + user.getId())
+                );
+        return orderItemMapper.toOrderItemDtoList(order.getOrderItems());
     }
 
     @Override
-    public OrderItemResponseDto getOrderItemFromOrderById(Long orderId, Long orderItemsId) {
-        Order order = findById(orderId);
-        OrderItem orderItem = order.getOrderItems().stream()
-                .filter(item -> item.getId().equals(orderItemsId))
-                .findFirst()
+    public OrderItemResponseDto getOrderItemFromOrderById(
+            Long orderId,
+            Long orderItemsId) {
+        OrderItem orderItem = orderItemsRepository.findByIdAndOrderId(
+                orderItemsId, orderId)
                 .orElseThrow(() -> new EntityNotFoundException(
-                        "Can`t find item by id: " + orderItemsId));
+                        "Can`t find order item by id: "
+                        + orderItemsId
+                        + " and by order id: "
+                        + orderId
+                ));
         return orderItemMapper.toDto(orderItem);
     }
 
