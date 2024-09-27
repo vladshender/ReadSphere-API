@@ -1,18 +1,33 @@
 package com.example.controller.book;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.dto.book.BookDto;
 import com.example.dto.book.CreateBookRequestDto;
 import com.example.dto.book.UpdateBookRequestDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javax.sql.DataSource;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.*;
-
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
+import javax.sql.DataSource;
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.*;
+import org.apache.commons.lang3.builder.EqualsBuilder;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
@@ -24,11 +39,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
-import org.apache.commons.lang3.builder.EqualsBuilder;
-
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BookControllerTest {
@@ -51,7 +61,11 @@ public class BookControllerTest {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
                     connection,
-                    new ClassPathResource("database/book/add-three-books.sql")
+                    new ClassPathResource("database/book/controller/add-three-books.sql")
+            );
+            ScriptUtils.executeSqlScript(
+                    connection,
+                    new ClassPathResource("database/book/controller/add-category.sql")
             );
         }
     }
@@ -67,14 +81,18 @@ public class BookControllerTest {
             connection.setAutoCommit(true);
             ScriptUtils.executeSqlScript(
                     connection,
-                    new ClassPathResource("database/book/remove-three-books.sql")
+                    new ClassPathResource("database/book/controller/remove-three-books.sql")
+            );
+            ScriptUtils.executeSqlScript(
+                    connection,
+                    new ClassPathResource("database/book/controller/remove-category.sql")
             );
         }
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
     @Test
-    @DisplayName("Get all books")
+    @DisplayName("Get all books when books exist")
     void getAll_GivenBooksInDB_ReturnAllBooks() throws Exception {
         List<BookDto> expected = new ArrayList<>();
         expected.add(new BookDto().setId(1L).setTitle("Fantastic").setAuthor("Bob")
@@ -95,14 +113,15 @@ public class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        BookDto[] actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), BookDto[].class);
+        BookDto[] actual = objectMapper.readValue(result.getResponse()
+                .getContentAsByteArray(), BookDto[].class);
         Assertions.assertEquals(3, actual.length);
         Assertions.assertEquals(expected, Arrays.stream(actual).toList());
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
     @Test
-    @DisplayName("Get book by id")
+    @DisplayName("Get book by valid id when book exist")
     void getBookById_ValidBookId_ReturnBook() throws Exception {
         Long bookId = 2L;
         BookDto expected = new BookDto().setId(2L).setTitle("Love").setAuthor("Alice")
@@ -115,29 +134,30 @@ public class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        BookDto actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), BookDto.class);
+        BookDto actual = objectMapper.readValue(result.getResponse()
+                .getContentAsByteArray(), BookDto.class);
         EqualsBuilder.reflectionEquals(expected, actual);
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
-    @DisplayName("Create book")
-    @Sql(scripts = "classpath:database/book/add-category.sql",
-            executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {
-            "classpath:database/book/remove-relations-kobzar-book-and-category.sql",
-            "classpath:database/book/remove-category.sql",
-            "classpath:database/book/remove-kobzar-book.sql"},
+    @DisplayName("Create new book with valid request body")
+    @Sql(scripts = "classpath:database/book/controller/remove-kobzar-and-relationship.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void createBook_ValidRequestDto_Success() throws Exception {
-        CreateBookRequestDto requestDto = new CreateBookRequestDto().setTitle("Kobzar").setAuthor("Shevchenko")
+        CreateBookRequestDto requestDto = new CreateBookRequestDto()
+                .setTitle("Kobzar")
+                .setAuthor("Shevchenko")
                 .setPrice(BigDecimal.valueOf(400))
                 .setIsbn("3332224445551")
                 .setDescription("Poems")
                 .setCoverImage("kobzar.png")
                 .setCategories(List.of(1L));
 
-        BookDto expected = new BookDto().setId(4L).setTitle("Kobzar").setAuthor("Shevchenko")
+        BookDto expected = new BookDto()
+                .setId(4L)
+                .setTitle("Kobzar")
+                .setAuthor("Shevchenko")
                 .setPrice(BigDecimal.valueOf(400))
                 .setIsbn("3332224445551")
                 .setDescription("Poems")
@@ -152,14 +172,15 @@ public class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        BookDto actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), BookDto.class);
+        BookDto actual = objectMapper.readValue(result.getResponse()
+                .getContentAsByteArray(), BookDto.class);
         EqualsBuilder.reflectionEquals(expected, actual, "id");
     }
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
-    @DisplayName("Delete book by id")
-    @Sql(scripts = "classpath:database/book/add-kobzar-book.sql",
+    @DisplayName("Delete book by valid id when book exist")
+    @Sql(scripts = "classpath:database/book/controller/add-kobzar-book.sql",
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
     void deleteById_ValidBookId_Success() throws Exception {
         Long bookId = 4L;
@@ -171,14 +192,11 @@ public class BookControllerTest {
 
     @WithMockUser(username = "admin", roles = {"ADMIN"})
     @Test
-    @DisplayName("Update book`s field by id")
-    @Sql(scripts = {"classpath:database/book/add-category.sql",
-            "classpath:database/book/add-kobzar-book.sql",
-            "classpath:database/book/add-relations-kobzar-categoty.sql"},
+    @DisplayName("Update book`s field by valid book id")
+    @Sql(scripts = {"classpath:database/book/controller/add-kobzar-book.sql",
+            "classpath:database/book/controller/add-kobzar-and-relationship.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {"classpath:database/book/remove-relations-kobzar-book-and-category.sql",
-            "classpath:database/book/remove-category.sql",
-            "classpath:database/book/remove-kobzar-book.sql"},
+    @Sql(scripts = "classpath:database/book/controller/remove-kobzar-and-relationship.sql",
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     void updateBook_ValidBookIdAndRequestDto_ReturnBookWithChangedField() throws Exception {
         Long bookId = 4L;
@@ -198,7 +216,8 @@ public class BookControllerTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        BookDto actual = objectMapper.readValue(result.getResponse().getContentAsByteArray(), BookDto.class);
+        BookDto actual = objectMapper.readValue(result.getResponse()
+                .getContentAsByteArray(), BookDto.class);
         Assertions.assertEquals(requestDto.getPrice(), actual.getPrice());
     }
 }

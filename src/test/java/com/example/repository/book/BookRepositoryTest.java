@@ -17,17 +17,15 @@ public class BookRepositoryTest {
     private BookRepository bookRepository;
 
     @Test
-    @DisplayName("fs")
-    @Sql(scripts = {"classpath:database/book/add-three-books.sql",
-            "classpath:database/book/add-category.sql",
-            "classpath:database/book/add-relations-books-categories.sql"},
+    @DisplayName("Get all book by category id when books exist and valid id")
+    @Sql(scripts = {"classpath:database/book/repository/add-category.sql",
+            "classpath:database/book/repository/add-three-books-and-relationship.sql"},
             executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-    @Sql(scripts = {"classpath:database/book/remove-relations-books-categories.sql",
-            "classpath:database/book/remove-three-books.sql",
-            "classpath:database/book/remove-category.sql"},
+    @Sql(scripts = {"classpath:database/book/repository/remove-three-books-and-relationship.sql",
+            "classpath:database/book/repository/remove-category.sql"},
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void findAllByCategories_Id_WithValidCategoryId_ReturnListBooks() {
         List<Book> actual = bookRepository.findAllByCategories_Id(1L);
-        Assertions.assertEquals( 3, actual.size());
+        Assertions.assertEquals(3, actual.size());
     }
 }

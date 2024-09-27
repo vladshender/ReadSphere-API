@@ -12,7 +12,7 @@ import org.mapstruct.MappingTarget;
 public interface CategoryMapper {
     CategoryResponseDto toDto(Category category);
 
-    List<CategoryResponseDto> toDto(List<Category> category);
+    List<CategoryResponseDto> toDtoList(List<Category> category);
 
     Category toModel(CategoryRequestDto categoryRequestDto);
 

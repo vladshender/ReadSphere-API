@@ -2,10 +2,10 @@ package com.example.dto.book;
 
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotBlank;
-import java.math.BigDecimal;
-import java.util.List;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import java.math.BigDecimal;
+import java.util.List;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
