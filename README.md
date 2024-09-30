@@ -53,5 +53,4 @@ jwt.expiration=<TIME_SESSION_EXPERATION_IN_MS>
 jwt.secret=<SECRET_WORD>
 ```
 ## Scheme of main interactions and functions in the project
-![my image](bookstorefinal.png)
 
