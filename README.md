@@ -15,20 +15,30 @@ Welcome to the Online Bookstore API, a RESTful API designed for managing an onli
 - User registration and login.
 - JWT-based authentication.
 - User roles: USER (regular user) and ADMIN (administrator).
-- Administrators can add, update, and delete books and categories.
 ### Books 📚 
 - CRUD operations for books: create, read, update, and delete.
 - Filter books by categories.
 - Search books by title or author.
+- Users can only perform GET operations
+- Administrator can perform POST, PUT, DELETE operations
+### Categories 📂
+- Users can view all categories and see all books in a specific category.
+- Administrators can add, update, and delete categories.
 ### Shopping Cart 🛒
-- Add books to the cart (authenticated users only).
+- All actions are performed only by authenticated users.
+- Add books to the cart.
 - View cart contents.
 - Update book quantities in the cart.
 - Remove books from the cart.
+- The user's shopping cart is created during registration
 ### Orders 📋
-- Place orders from the cart.
+- Place orders from the cart (authenticated users only).
 - View order history (authenticated users only).
-- Administrators can view all orders and change the order status.
+- Users can create an order for their cart.
+- Users can retrieve all their orders.
+- Users can view all items in a specific order.
+- Users can retrieve individual order items by order and product ID.
+- Admins can update the status of an order by ID.
 ## Getting Started 🚀
 ### Setup
 1. **Clone the repository:**
