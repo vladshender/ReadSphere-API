@@ -1,5 +1,10 @@
 # Bookstore API 📚
 Welcome to the Online Bookstore API, a RESTful API designed for managing an online bookstore. It allows users to manage a catalog of books, shopping carts, and orders, and supports user registration and authentication via JWT. The API also includes role-based access control, enabling different levels of access for users and administrators.
+## Technologies
+- **Java 17**
+- **Maven**
+- **MySQL**
+- **Docker**
 ## Features
 ### Users 👥
 - User registration and login.
@@ -20,11 +25,6 @@ Welcome to the Online Bookstore API, a RESTful API designed for managing an onli
 - View order history (authenticated users only).
 - Administrators can view all orders and change the order status.
 ## Getting Started 🚀
-### Prerequisites
-- **Java 17**
-- **Maven**
-- **MySQL**
-- **Docker**
 ### Setup
 1. **Clone the repository:**
 ```
@@ -38,7 +38,7 @@ mvn clean package
 ```
 docker-compose up
 ```
-## Connecting to a Custom Database 🗄
+### Connecting to a Custom Database 🗄
 To connect to a custom MySQL database, update the application.properties file with your database details:
 ```
 spring.datasource.url=jdbc:mysql://<YOUR_DB_HOST>:<YOUR_DB_PORT>/<YOUR_DB_NAME>
@@ -56,3 +56,13 @@ jwt.secret=<SECRET_WORD>
 ![my image](bookstorediagram.png)
 ##
 The Bookshop API provides a robust foundation for managing users, books, categories, and orders in an online bookstore. The technology stack provides scalability, security and ease of maintenance. Feel free to contribute or provide feedback to help us improve.
+##
+| Method          | Endpoint   |          Role         |     Description     |           |       |
+|-----------------|------------|-----------------------|---------------------|-----------|-------|
+| `id`            | Long       | Унікальний ідентифікатор книги |            |           |        |
+| `title`         | String     | Назва книги           |                     |           |        |
+| `author`        | String     | Автор книги           |                     |           |        |
+| `price`         | BigDecimal | Ціна книги            |                     |           |        |
+| `description`   | String     | Опис книги            |                     |           |        |
+| `coverImage`    | String     | URL зображення обкладинки |                 |           |        |
+| `categories`    | List<Long> | Категорії книги       |                     |           |        |
