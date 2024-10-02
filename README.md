@@ -1,10 +1,14 @@
 # Bookstore API 📚
 Welcome to the Online Bookstore API, a RESTful API designed for managing an online bookstore. It allows users to manage a catalog of books, shopping carts, and orders, and supports user registration and authentication via JWT. The API also includes role-based access control, enabling different levels of access for users and administrators.
 ## Technologies
-- **Java 17**
-- **Maven**
-- **MySQL**
-- **Docker**
+- **Java 17**: Core programming language for backend development.
+- **Spring Boot**: Framework for building microservices with minimal configuration.
+- **Spring Web**: Module for building REST APIs and handling HTTP requests.
+- **Spring Security**: Authentication and authorization framework.
+- **MapStruct**: Simplifies object mapping between DTOs and entities.
+- **Liquibase**: Tool for managing database schema migrations.
+- **JUnit & MockMvc**: Frameworks for unit and integration testing.
+- **Docker**: Containerization platform for consistent development and deployment environments.
 ## Features
 ### Users 👥
 - User registration and login.
@@ -57,12 +61,12 @@ jwt.secret=<SECRET_WORD>
 ##
 The Bookshop API provides a robust foundation for managing users, books, categories, and orders in an online bookstore. The technology stack provides scalability, security and ease of maintenance. Feel free to contribute or provide feedback to help us improve.
 ##
-| Method          | Endpoint   |          Role         |     Description     |           |       |
-|-----------------|------------|-----------------------|---------------------|-----------|-------|
-| `id`            | Long       | Унікальний ідентифікатор книги |            |           |        |
-| `title`         | String     | Назва книги           |                     |           |        |
-| `author`        | String     | Автор книги           |                     |           |        |
-| `price`         | BigDecimal | Ціна книги            |                     |           |        |
-| `description`   | String     | Опис книги            |                     |           |        |
-| `coverImage`    | String     | URL зображення обкладинки |                 |           |        |
-| `categories`    | List<Long> | Категорії книги       |                     |           |        |
+| Method          | Endpoint   |          Role         |     Description                         |           |       |
+|-----------------|------------|-----------------------|-----------------------------------------|-----------|-------|
+|  `GET`          | `/books`       | USER               |   Get all book                          |           |        |
+| `GET`         | `/books/{id}`     | USER             |    Get book by id                         |           |        |
+| `POST`        | `/books`         | ADMIN             |    Сreate a new book                     |           |        |
+| `DELETE`      | `/books/{id}`     | ADMIN            |     Delete a book by id                  |           |        |
+| `PUT`         |  `/books/{id}`    | ADMIN            |     Update book by id                    |           |        |
+| `GET`         | `/books/search`   | USER              |   Search for a book by title or author  |           |        |
+
