@@ -28,6 +28,45 @@ Welcome to the Online Bookstore API, a RESTful API designed for managing an onli
 - Place orders from the cart.
 - View order history (authenticated users only).
 - Administrators can view all orders and change the order status.
+## Endpoints
+### Authentication
+| Method          | Endpoint   |          Role         |     Description                         |
+|-----------------|------------|-----------------------|-----------------------------------------|
+|  `POST`          | `api/auth/login`       | Unauthorized       |  Login user                          | 
+| `POST`         | `api/auth/registration`  | Unauthorized      |    Registration user with password and email  | 
+### Book
+| Method          | Endpoint   |          Role         |     Description                         | 
+|-----------------|------------|-----------------------|-----------------------------------------|
+|  `GET`          | `api/books`       | USER               |   Get all book                          |
+| `GET`         | `api/books/{id}`     | USER             |    Get book by id                         |
+| `POST`        | `api/books`         | ADMIN             |    Сreate a new book                     |
+| `DELETE`      | `api/books/{id}`     | ADMIN            |     Delete a book by id                  |
+| `PUT`         |  `api/books/{id}`    | ADMIN            |     Update book by id                    |
+| `GET`         | `api/books/search`   | USER              |   Search for a book by title or author  |
+### Category
+| Method          | Endpoint   |          Role         |     Description                         |
+|-----------------|------------|-----------------------|-----------------------------------------|
+|  `GET`          | `api/categores`       | USER               |   Get all categories             |
+| `GET`         | `api/categores/{id}`     | USER             |    Get category by id              | 
+| `POST`        | `api/categores`         | ADMIN             |    Сreate a new category             |
+| `DELETE`      | `api/categores/{id}`     | ADMIN            |     Delete a category by id           |
+| `PUT`         |  `api/categores/{id}`    | ADMIN            |     Update category by id            |
+| `GET`         | `api/categores/{id}/books`   | USER              |   Get all books by category id  |        
+### Order
+| Method          | Endpoint   |          Role         |     Description                         |
+|-----------------|------------|-----------------------|-----------------------------------------|
+|  `GET`          | `api/order`       | USER               |   Get all orders of the logged in user             |
+| `GET`         | `api/order//{id}/items`     | USER             |    Get all items for order by order id              | 
+| `GET`        | `api/order/{orderId}/items/{itemId}`| USER      |    Get item for the order by id and product id      |
+| `POST`      | `api/order`     | USER            |     Сreating an order for a logged-in user           |
+| `PATCH`         |  `api/order/{id}`    | ADMIN            |     Update order status by id            |
+### ShoppingCart
+| Method          | Endpoint   |          Role         |     Description                         |
+|-----------------|------------|-----------------------|-----------------------------------------|
+| `GET`         | `api/cart`     | USER             |    Get shopping cart for logging user              | 
+| `POST`        | `api/cart`         | ADMIN             |    Create cart items in shopping cart for logging user             |
+| `DELETE`      | `api/cart/items/{id}`     | ADMIN            |     Delete cart item by id           |
+| `PUT`         |  `api/cart/items/{id}`    | ADMIN            |     Update quantity for cart items by id in shopping cart            |
 ## Getting Started 🚀
 ### Setup
 1. **Clone the repository:**
