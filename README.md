@@ -135,16 +135,20 @@ http://localhost:8080/api/swagger-ui/index.html
 ### API Book Guide
 <details>
   <summary><h4><strong>GET api/books</strong></h4></summary>
+  <strong>Request Body</strong>
+  <pre>
+    missing
+  </pre>
   <strong>Response Body</strong>
   <pre>
   [
     {
         "id": 1,
-        "title": "Travel",
-        "author": "Tom Cook",
+        "title": "Example Book 1",
+        "author": "John Doe",
         "isbn": "1924292334409",
         "price": 250.00,
-        "description": "Book for traveling",
+        "description": "Example Book 1 description",
         "coverImage": "skdl33333",
         "categoryIds": [
             1
@@ -152,11 +156,11 @@ http://localhost:8080/api/swagger-ui/index.html
     },
     {
         "id": 2,
-        "title": "Love",
-        "author": "Tom Love",
+        "title": "Example Book 2",
+        "author": "Bob Doe",
         "isbn": "1924392334409",
         "price": 350.00,
-        "description": "Book for LOve",
+        "description": "Example Book 2 description",
         "coverImage": "sk3333333",
         "categoryIds": [
             1
@@ -164,11 +168,11 @@ http://localhost:8080/api/swagger-ui/index.html
     },
     {
         "id": 3,
-        "title": "Big love",
-        "author": "Tom Fin",
+        "title": "Example Book 3",
+        "author": "Alice Doe",
         "isbn": "1924396334409",
         "price": 350.00,
-        "description": "Book for big Love",
+        "description": "Example Book 3 description",
         "coverImage": "sk332223333",
         "categoryIds": [
             2
@@ -180,25 +184,28 @@ http://localhost:8080/api/swagger-ui/index.html
 
 <details>
   <summary><h4><strong>GET api/books/{id}</strong></h4></summary>
+    <strong>Request Body</strong>
+  <pre>
+    missing
+  </pre>
   <strong>Response Body</strong>
   <pre>
 {
-    "id": 2,
-    "title": "Love",
-    "author": "Tom Love",
-    "isbn": "1924392334409",
-    "price": 350.00,
-    "description": "Book for LOve",
-    "coverImage": "sk3333333",
-    "categoryIds": [
-        1
-    ]
+        "id": 2,
+        "title": "Example Book 2",
+        "author": "Bob Doe",
+        "isbn": "1924392334409",
+        "price": 350.00,
+        "description": "Example Book 2 description",
+        "coverImage": "sk3333333",
+        "categoryIds": [
+            1
+        ]
 }
   </pre>
 </details>
 <details>
   <summary><h4><strong>POST api/books</strong></h4></summary>
-
   <strong>Request Body</strong>
   <pre>
 {
@@ -229,60 +236,77 @@ http://localhost:8080/api/swagger-ui/index.html
 
 <details>
   <summary><h4><strong>DELETE api/books/{id}</strong></h4></summary>
-
   <strong>Request Body</strong>
   <pre>
-  {
-      "email": "example@example.com",
-      "password": "password123",
-      "repeatPassword": "password123",
-      "firstName": "Ivan",
-      "lastName": "Ivanenko",
-      "shippingAddress": "City of Kyiv, 19 Stepana Bandera Street"
-  }
+    missing
   </pre>
-
   <strong>Response Body</strong>
   <pre>
-  {
-      "id": 4,
-      "email": "example@example.com",
-      "firstName": "Ivan",
-      "lastName": "Ivanenko",
-      "shippingAddress": "City of Kyiv, 19 Stepana Bandera Street"
-  }
+    missing
   </pre>
 </details>
+
 <details>
   <summary><h4><strong>PUT api/books/{id}</strong></h4></summary>
 
   <strong>Request Body</strong>
   <pre>
-  {
-      "email": "example@example.com",
-      "password": "password123"
-  }
+  "title": "Example Book Title",
+  "author": "John Doe",
+  "isbn": "1234567890123",
+  "price": 99.99, <strong>modified field</strong>
+  "description": "This is a brief description of the book.",
+  "coverImage": "https://example.com/image.jpg",
+  "categories": [1]
   </pre>  
 
   <strong>Response Body</strong>
   <pre>
-  JWT-Token
+      "id": 1,
+    "title": "Example Book Title",
+    "author": "John Doe",
+    "isbn": "1924292334409",
+    "price": 99.99,
+    "description": "This is a brief description of the book.",
+    "coverImage": "https://example.com/image.jpg",
+    "categoryIds": [
+        1
+    ]
   </pre>
 </details>
 
 <details>
-  <summary><h4><strong>api/auth/registration</strong></h4></summary>
-
-  <strong>Request Body</strong>
+  <summary><h4><strong>GET api/books/search</strong></h4></summary>
+  <strong>Endpoint</strong>
   <pre>
-  {
-      "email": "example@example.com",
-      "password": "password123",
-      "repeatPassword": "password123",
-      "firstName": "Ivan",
-      "lastName": "Ivanenko",
-      "shippingAddress": "City of Kyiv, 19 Stepana Bandera Street"
-  }
+  api/books/search?title=&author=John Doe
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+    {
+        "id": 1,
+        "title": "Example Book 1",
+        "author": "John Doe",
+        "isbn": "1924292334409",
+        "price": 250.00,
+        "description": "Example Book 1 description",
+        "coverImage": "skdl33333",
+        "categoryIds": [
+            1
+        ]
+    },
+    {
+        "id": 4,
+        "title": "Example Book Title",
+        "author": "John Doe",
+        "isbn": "1234567890123",
+        "price": 49.99,
+        "description": "This is a brief description of the book.",
+        "coverImage": "https://example.com/image.jpg",
+        "categoryIds": [
+            1
+        ]
+    }
   </pre>
 </details>
 
