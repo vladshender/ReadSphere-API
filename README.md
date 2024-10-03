@@ -394,10 +394,12 @@ http://localhost:8080/api/swagger-ui/index.html
 
 <details>
   <summary><h4><strong>PUT api/categores/{id}</strong></h4></summary>
+  <pre>
 {
     "name":"Thriller",
     "description":"Thriller books"
 }
+  </pre>
   <strong>Response Body</strong>
   <pre>
     "id": 2,
@@ -439,10 +441,141 @@ http://localhost:8080/api/swagger-ui/index.html
 | Method          | Endpoint   |          Role         |     Description                         |
 |-----------------|------------|-----------------------|-----------------------------------------|
 |  `GET`          | `api/order`       | USER               |   Get all orders of the logged in user             |
-| `GET`         | `api/order//{id}/items`     | USER             |    Get all items for order by order id              | 
+| `GET`         | `api/order/{id}/items`     | USER             |    Get all items for order by order id              | 
 | `GET`        | `api/order/{orderId}/items/{itemId}`| USER      |    Get item for the order by id and product id      |
 | `POST`      | `api/order`     | USER            |     Сreating an order for a logged-in user           |
 | `PATCH`         |  `api/order/{id}`    | ADMIN            |     Update order status by id            |
+
+### API Order Guide
+<details>
+  <summary><h4><strong>GET api/order</strong></h4></summary>
+  <strong>Request Body</strong>
+  <pre>
+    missing
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+    {
+        "id": 1,
+        "userId": 3,
+        "orderItemsList": [
+            {
+                "id": 1,
+                "bookId": 3,
+                "quantity": 1
+            },
+            {
+                "id": 2,
+                "bookId": 1,
+                "quantity": 2
+            },
+            {
+                "id": 3,
+                "bookId": 2,
+                "quantity": 1
+            }
+        ],
+        "orderDate": "2024-09-02 15:35:49",
+        "total": 1200.00,
+        "status": "PENDING"
+    }
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>GET api/order/{id}/items</strong></h4></summary>
+    <strong>Request Body</strong>
+  <pre>
+    missing
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+    {
+        "id": 1,
+        "bookId": 3,
+        "quantity": 1
+    },
+    {
+        "id": 3,
+        "bookId": 2,
+        "quantity": 1
+    },
+    {
+        "id": 2,
+        "bookId": 1,
+        "quantity": 2
+    }
+  </pre>
+</details>
+<details>
+  <summary><h4><strong>GET api/order/{orderId}/items/{itemId}</strong></h4></summary>
+  <strong>Request Body</strong>
+  <pre>
+{
+    "name":"Thriller",
+    "description":"Thriller books"
+}
+  </pre>  
+  <strong>Response Body</strong>
+  <pre>
+{
+    "id": 2,
+    "bookId": 1,
+    "quantity": 2
+}
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>POST api/order</strong></h4></summary>
+  <strong>Request Body</strong>
+  <pre>
+    missing
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+    missing
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>PATCH api/order/{id}</strong></h4></summary>
+  <pre>
+{
+    "status":"DELIVERED"
+}
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+{
+    "id": 4,
+    "userId": 2,
+    "orderItemsList": [
+        {
+            "id": 11,
+            "bookId": 2,
+            "quantity": 1
+        },
+        {
+            "id": 10,
+            "bookId": 3,
+            "quantity": 1
+        },
+        {
+            "id": 12,
+            "bookId": 3,
+            "quantity": 1
+        }
+    ],
+    "orderDate": "2024-09-05 09:53:25",
+    "total": 1050.00,
+    "status": "DELIVERED"
+}    "id": 2,
+    "name": "Thriller",
+    "description": "Thriller books"
+  </pre>
+</details>
+
 ### ShoppingCart
 | Method          | Endpoint   |          Role         |     Description                         |
 |-----------------|------------|-----------------------|-----------------------------------------|
