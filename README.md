@@ -640,7 +640,7 @@ It is created on the basis of Shopping Cart
   <summary><h4><strong>POST api/cart</strong></h4></summary>
     <strong>Request Body</strong>
   <pre>
-    {
+{
     "bookId":4,
     "quantity":2
 }
@@ -715,7 +715,3 @@ missing
 ##
 The Bookshop API provides a robust foundation for managing users, books, categories, and orders in an online bookstore. The technology stack provides scalability, security and ease of maintenance. Feel free to contribute or provide feedback to help us improve.
 ##
-<details>
-  <summary>Technologies Used</summary>
-
-</details>
