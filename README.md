@@ -92,7 +92,9 @@ http://localhost:8080/api/swagger-ui/index.html
 
   <strong>Response Body</strong>
   <pre>
-  JWT-Token
+{
+  "token":"JWT-Token"
+}    
   </pre>
 </details>
 
@@ -141,7 +143,6 @@ http://localhost:8080/api/swagger-ui/index.html
   </pre>
   <strong>Response Body</strong>
   <pre>
-  [
     {
         "id": 1,
         "title": "Example Book 1",
@@ -178,7 +179,6 @@ http://localhost:8080/api/swagger-ui/index.html
             2
         ]
     }
-]
   </pre>
 </details>
 
@@ -402,9 +402,11 @@ http://localhost:8080/api/swagger-ui/index.html
   </pre>
   <strong>Response Body</strong>
   <pre>
+{   
     "id": 2,
     "name": "Thriller",
     "description": "Thriller books"
+}
   </pre>
 </details>
 
@@ -529,12 +531,28 @@ http://localhost:8080/api/swagger-ui/index.html
 <details>
   <summary><h4><strong>POST api/order</strong></h4></summary>
   <strong>Request Body</strong>
+It is created on the basis of Shopping Cart
   <pre>
-    missing
+{
+    "shippingAddress":"vyl. Velika Vasilkivska 13"
+}
   </pre>
   <strong>Response Body</strong>
   <pre>
-    missing
+{
+    "id": 6,
+    "userId": 4,
+    "orderItemsList": [
+        {
+            "id": 16,
+            "bookId": 4,
+            "quantity": 2
+        }
+    ],
+    "orderDate": "2024-10-03 21:48:35",
+    "total": 99.98,
+    "status": "PENDING"
+}
   </pre>
 </details>
 
@@ -570,9 +588,7 @@ http://localhost:8080/api/swagger-ui/index.html
     "orderDate": "2024-09-05 09:53:25",
     "total": 1050.00,
     "status": "DELIVERED"
-}    "id": 2,
-    "name": "Thriller",
-    "description": "Thriller books"
+}    
   </pre>
 </details>
 
@@ -583,6 +599,117 @@ http://localhost:8080/api/swagger-ui/index.html
 | `POST`        | `api/cart`         | ADMIN             |    Create cart items in shopping cart for logging user             |
 | `DELETE`      | `api/cart/items/{id}`     | ADMIN            |     Delete cart item by id           |
 | `PUT`         |  `api/cart/items/{id}`    | ADMIN            |     Update quantity for cart items by id in shopping cart            |
+
+### API Shopping Cart Guide
+<details>
+  <summary><h4><strong>GET api/cart</strong></h4></summary>
+  <strong>Request Body</strong>
+  <pre>
+    missing
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+{
+    "id": 2,
+    "userId": 3,
+    "cartItemsList": [
+        {
+            "id": 4,
+            "bookId": 1,
+            "bookTitle": "Example Book 1 Example",
+            "quantity": 2
+        },
+        {
+            "id": 26,
+            "bookId": 3,
+            "bookTitle": Example Book 3 Example",
+            "quantity": 1
+        },
+        {
+            "id": 5,
+            "bookId": 2,
+            "bookTitle": "Example Book 2 Example",
+            "quantity": 1
+        }
+    ]
+}
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>POST api/cart</strong></h4></summary>
+    <strong>Request Body</strong>
+  <pre>
+    {
+    "bookId":4,
+    "quantity":2
+}
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+{
+    "id": 3,
+    "userId": 4,
+    "cartItemsList": [
+        {
+            "id": 27,
+            "bookId": 4,
+            "bookTitle": "Example Book Title",
+            "quantity": 2
+        }
+    ]
+}
+  </pre>
+</details>
+<details>
+  <summary><h4><strong>DELETE api/cart/items/{id}</strong></h4></summary>
+  <strong>Request Body</strong>
+  <pre>
+missing
+  </pre>  
+  <strong>Response Body</strong>
+  <pre>
+missing
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>PUT api/cart/items/{id}</strong></h4></summary>
+  <pre>
+{
+    "quantity":"3"
+}
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+{
+    "id": 2,
+    "userId": 3,
+    "cartItemsList": [
+        {
+            "id": 4,
+            "bookId": 1,
+            "bookTitle": "Example Book 1 Example",
+            "quantity": 3 <strong>modified field</strong>
+        },
+        {
+            "id": 26,
+            "bookId": 3,
+            "bookTitle": Example Book 3 Example",
+            "quantity": 1
+        },
+        {
+            "id": 5,
+            "bookId": 2,
+            "bookTitle": "Example Book 2 Example",
+            "quantity": 1
+        }
+    ]
+}
+  </pre>
+</details>
+
+
 ## Scheme of main interactions and functions in the project 
 ![my image](bookstorediagram.png)
 ##
