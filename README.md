@@ -318,7 +318,8 @@ http://localhost:8080/api/swagger-ui/index.html
 | `POST`        | `api/categores`         | ADMIN             |    Сreate a new category             |
 | `DELETE`      | `api/categores/{id}`     | ADMIN            |     Delete a category by id           |
 | `PUT`         |  `api/categores/{id}`    | ADMIN            |     Update category by id            |
-| `GET`         | `api/categores/{id}/books`   | USER              |   Get all books by category id  |        
+| `GET`         | `api/categores/{id}/books`   | USER              |   Get all books by category id  |  
+
 ### Order
 | Method          | Endpoint   |          Role         |     Description                         |
 |-----------------|------------|-----------------------|-----------------------------------------|
