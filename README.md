@@ -1,4 +1,4 @@
-# Bookstore API 📚
+# BookStore API 📚
 Welcome to the Online Bookstore API, a RESTful API designed for managing an online bookstore. It allows users to manage a catalog of books, shopping carts, and orders, and supports user registration and authentication via JWT. The API also includes role-based access control, enabling different levels of access for users and administrators.
 ## Technologies
 - **Java 17**: Core programming language for backend development.
@@ -73,10 +73,56 @@ http://localhost:8080/api/swagger-ui/index.html
 ```
 ## Endpoints
 ### Authentication
+
 | Method          | Endpoint   |          Role         |     Description                         |
 |-----------------|------------|-----------------------|-----------------------------------------|
 |  `POST`          | `api/auth/login`       | Unauthorized       |  Login user                          | 
 | `POST`         | `api/auth/registration`  | Unauthorized      |    Registration user with password and email  | 
+### API Authentication Guide
+<details>
+  <summary><h4><strong>api/auth/login</strong></h4></summary>
+
+  <strong>Request Body</strong>
+  <pre>
+  {
+      "email": "example@example.com",
+      "password": "password123"
+  }
+  </pre>  
+
+  <strong>Response Body</strong>
+  <pre>
+  JWT-Token
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>api/auth/registration</strong></h4></summary>
+
+  <strong>Request Body</strong>
+  <pre>
+  {
+      "email": "example@example.com",
+      "password": "password123",
+      "repeatPassword": "password123",
+      "firstName": "Ivan",
+      "lastName": "Ivanenko",
+      "shippingAddress": "City of Kyiv, 19 Stepana Bandera Street"
+  }
+  </pre>
+
+  <strong>Response Body</strong>
+  <pre>
+  {
+      "id": 4,
+      "email": "example@example.com",
+      "firstName": "Ivan",
+      "lastName": "Ivanenko",
+      "shippingAddress": "City of Kyiv, 19 Stepana Bandera Street"
+  }
+  </pre>
+</details>
+
 ### Book
 | Method          | Endpoint   |          Role         |     Description                         | 
 |-----------------|------------|-----------------------|-----------------------------------------|
@@ -117,14 +163,5 @@ The Bookshop API provides a robust foundation for managing users, books, categor
 ##
 <details>
   <summary>Technologies Used</summary>
-
-  - **Java**: Core language for backend development.
-  - **Spring Boot**: Framework for rapid microservice development.
-  - **Spring Web**: Handles REST API creation and HTTP requests.
-  - **Spring Security**: Manages authentication and authorization.
-  - **MapStruct**: Automates object mapping between DTOs and entities.
-  - **Liquibase**: Manages database schema migrations.
-  - **JUnit & MockMvc**: Frameworks for unit and integration testing.
-  - **Docker**: Ensures consistent environments through containerization.
 
 </details>
