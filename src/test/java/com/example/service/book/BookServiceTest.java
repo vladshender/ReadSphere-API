@@ -1,5 +1,7 @@
 package com.example.service.book;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.example.dto.book.BookDto;
 import com.example.dto.book.BookDtoWithoutCategoryIds;
 import com.example.dto.book.CreateBookRequestDto;
@@ -11,7 +13,6 @@ import com.example.repository.book.BookRepository;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -54,7 +55,7 @@ public class BookServiceTest {
 
         BookDto actual = bookService.getBookById(bookId);
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -68,18 +69,18 @@ public class BookServiceTest {
         book.setAuthor("Bob");
         book.setTitle("Story of the jungle");
 
-        BookDto bookDto = new BookDto();
-        bookDto.setId(1L);
-        bookDto.setAuthor(book.getAuthor());
-        bookDto.setTitle(book.getTitle());
+        BookDto expected = new BookDto();
+        expected.setId(1L);
+        expected.setAuthor(book.getAuthor());
+        expected.setTitle(book.getTitle());
 
         Mockito.when(bookMapper.toModel(requestDto)).thenReturn(book);
         Mockito.when(bookRepository.save(book)).thenReturn(book);
-        Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
+        Mockito.when(bookMapper.toDto(book)).thenReturn(expected);
 
-        BookDto savedBookDto = bookService.save(requestDto);
+        BookDto actual = bookService.save(requestDto);
 
-        Assertions.assertEquals(bookDto, savedBookDto);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -96,15 +97,15 @@ public class BookServiceTest {
         bookDto.setTitle(book.getTitle());
 
         Pageable pageable = PageRequest.of(0, 10);
-        List<Book> books = List.of(book);
-        Page<Book> bookPage = new PageImpl<>(books, pageable, books.size());
+        List<Book> actual = List.of(book);
+        Page<Book> bookPage = new PageImpl<>(actual, pageable, actual.size());
 
         Mockito.when(bookRepository.findAll(pageable)).thenReturn(bookPage);
-        Mockito.when(bookMapper.toDtoList(books)).thenReturn(List.of(bookDto));
+        Mockito.when(bookMapper.toDtoList(actual)).thenReturn(List.of(bookDto));
 
-        List<BookDto> bookDtos = bookService.findAll(pageable);
+        List<BookDto> expected = bookService.findAll(pageable);
 
-        Assertions.assertEquals(bookDtos.size(), books.size());
+        assertEquals(expected.size(), actual.size());
     }
 
     @Test
@@ -119,18 +120,18 @@ public class BookServiceTest {
         UpdateBookRequestDto requestDto = new UpdateBookRequestDto();
         requestDto.setAuthor("Alice");
 
-        BookDto bookDto = new BookDto();
-        bookDto.setId(bookId);
-        bookDto.setAuthor(requestDto.getAuthor());
-        bookDto.setTitle(book.getTitle());
+        BookDto expected = new BookDto();
+        expected.setId(bookId);
+        expected.setAuthor(requestDto.getAuthor());
+        expected.setTitle(book.getTitle());
 
         Mockito.when(bookRepository.findById(bookId)).thenReturn(Optional.of(book));
         Mockito.when(bookRepository.save(book)).thenReturn(book);
-        Mockito.when(bookMapper.toDto(book)).thenReturn(bookDto);
+        Mockito.when(bookMapper.toDto(book)).thenReturn(expected);
 
-        BookDto getBookDto = bookService.updateBookDetails(bookId, requestDto);
+        BookDto actual = bookService.updateBookDetails(bookId, requestDto);
 
-        Assertions.assertEquals(bookDto, getBookDto);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -153,14 +154,14 @@ public class BookServiceTest {
         bookDto.setTitle(book.getTitle());
 
         List<Book> books = List.of(book);
-        List<BookDtoWithoutCategoryIds> bookDtos = List.of(bookDto);
+        List<BookDtoWithoutCategoryIds> expected = List.of(bookDto);
 
         Mockito.when(bookRepository.findAllByCategories_Id(categoryId)).thenReturn(books);
-        Mockito.when(bookMapper.toDtoWithoutCategories(books)).thenReturn(bookDtos);
+        Mockito.when(bookMapper.toDtoWithoutCategories(books)).thenReturn(expected);
 
-        List<BookDtoWithoutCategoryIds> listBookDto
+        List<BookDtoWithoutCategoryIds> actual
                 = bookService.getBooksByCategoryId(categoryId);
 
-        Assertions.assertEquals(bookDtos, listBookDto);
+        assertEquals(expected, actual);
     }
 }

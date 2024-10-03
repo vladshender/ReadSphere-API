@@ -1,8 +1,9 @@
 package com.example.repository.book;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.example.model.Book;
 import java.util.List;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,6 @@ public class BookRepositoryTest {
             executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
     public void findAllByCategories_Id_WithValidCategoryId_ReturnListBooks() {
         List<Book> actual = bookRepository.findAllByCategories_Id(1L);
-        Assertions.assertEquals(3, actual.size());
+        assertEquals(3, actual.size());
     }
 }

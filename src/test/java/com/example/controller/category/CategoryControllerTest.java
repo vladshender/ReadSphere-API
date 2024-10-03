@@ -1,5 +1,6 @@
 package com.example.controller.category;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,6 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.dto.category.CategoryRequestDto;
 import com.example.dto.category.CategoryResponseDto;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -19,7 +21,6 @@ import javax.sql.DataSource;
 import lombok.SneakyThrows;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -100,7 +101,7 @@ public class CategoryControllerTest {
 
         CategoryResponseDto actual = objectMapper.readValue(result.getResponse()
                 .getContentAsByteArray(), CategoryResponseDto.class);
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
@@ -132,8 +133,8 @@ public class CategoryControllerTest {
 
         CategoryResponseDto[] actual = objectMapper.readValue(result.getResponse()
                 .getContentAsByteArray(), CategoryResponseDto[].class);
-        Assertions.assertEquals(3, actual.length);
-        Assertions.assertEquals(expected, Arrays.stream(actual).toList());
+        assertEquals(3, actual.length);
+        assertEquals(expected, Arrays.stream(actual).toList());
     }
 
     @WithMockUser(username = "user", roles = {"USER"})
@@ -196,6 +197,73 @@ public class CategoryControllerTest {
 
         CategoryResponseDto actual = objectMapper.readValue(result.getResponse()
                 .getContentAsByteArray(), CategoryResponseDto.class);
-        Assertions.assertEquals(expected.getName(), actual.getName());
+        assertEquals(expected.getName(), actual.getName());
+    }
+
+    @WithMockUser(username = "user", roles = {"ADMIN"})
+    @Test
+    @DisplayName("Create category with not valid request body")
+    public void create_NotValidRequestDto_ReturnError() throws Exception {
+        int expected = 400;
+        CategoryRequestDto requestDto = new CategoryRequestDto();
+        requestDto.setName(null);
+
+        String jsonRequest = objectMapper.writeValueAsString(requestDto);
+
+        MvcResult result = mockMvc.perform(post("/categories")
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        int actual = result.getResponse().getStatus();
+        String content = result.getResponse().getContentAsString();
+        JsonNode responseJson = objectMapper.readTree(content);
+        String errorMessage = responseJson.get("errors").get(0).asText();
+
+        assertEquals(expected, actual);
+        assertEquals("name must not be blank", errorMessage);
+    }
+
+    @WithMockUser(username = "admin", roles = {"ADMIN"})
+    @Test
+    @DisplayName("Update category by id when it doesn`t exist")
+    public void updateCategory_NotValidCategoryId_ReturnException()
+            throws Exception {
+        Long categoryId = 7L;
+        int expected = 404;
+
+        CategoryRequestDto requestDto = new CategoryRequestDto();
+        requestDto.setName("Science fiction");
+
+        String jsonRequest = objectMapper.writeValueAsString(requestDto);
+
+        MvcResult result = mockMvc.perform(put("/categories/{id}", categoryId)
+                        .content(jsonRequest)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        int actual = result.getResponse().getStatus();
+        String content = result.getResponse().getContentAsString();
+
+        assertEquals(expected, actual);
+        assertEquals(content, "Can`t find category by id: " + categoryId);
+    }
+
+    @WithMockUser(username = "user", roles = {"USER"})
+    @Test
+    @DisplayName("Get category by valid id when it doesn`t exist")
+    public void getCategoryById_NotValidCategoryId_ReturnException() throws Exception {
+        Long categoryId = 7L;
+        int expected = 404;
+
+        MvcResult result = mockMvc.perform(get("/categories/{id}", categoryId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
+
+        int actual = result.getResponse().getStatus();
+        String content = result.getResponse().getContentAsString();
+
+        assertEquals(expected, actual);
+        assertEquals(content, "Can`t find category by id: " + categoryId);
     }
 }

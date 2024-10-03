@@ -1,1 +1,1 @@
-insert into books_categories (book_id, category_id) values (4, 1);
+insert into books_categories (book_id, category_id) values ((SELECT id FROM books WHERE title = 'Kobzar'), 1);

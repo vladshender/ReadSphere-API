@@ -1,5 +1,7 @@
 package com.example.service.category;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import com.example.dto.category.CategoryRequestDto;
 import com.example.dto.category.CategoryResponseDto;
 import com.example.mapper.CategoryMapper;
@@ -7,7 +9,6 @@ import com.example.model.Category;
 import com.example.repository.category.CategoryRepository;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -43,15 +44,15 @@ public class CategoryServiceTest {
         responseDto.setName(category.getName());
 
         Pageable pageable = PageRequest.of(0, 10);
-        List<Category> categories = List.of(category);
-        Page<Category> categoryPage = new PageImpl<>(categories, pageable, categories.size());
+        List<Category> actual = List.of(category);
+        Page<Category> categoryPage = new PageImpl<>(actual, pageable, actual.size());
 
         Mockito.when(categoryRepository.findAll(pageable)).thenReturn(categoryPage);
-        Mockito.when(categoryMapper.toDtoList(categories)).thenReturn(List.of(responseDto));
+        Mockito.when(categoryMapper.toDtoList(actual)).thenReturn(List.of(responseDto));
 
-        List<CategoryResponseDto> categoryDtos = categoryService.findAll(pageable);
+        List<CategoryResponseDto> expected = categoryService.findAll(pageable);
 
-        Assertions.assertEquals(categoryDtos.size(), categories.size());
+        assertEquals(expected.size(), actual.size());
     }
 
     @Test
@@ -71,7 +72,7 @@ public class CategoryServiceTest {
 
         CategoryResponseDto actual = categoryService.getById(categoryId);
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -94,7 +95,7 @@ public class CategoryServiceTest {
 
         CategoryResponseDto actual = categoryService.save(requestDto);
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 
     @Test
@@ -118,6 +119,6 @@ public class CategoryServiceTest {
 
         CategoryResponseDto actual = categoryService.update(categoryId, requestDto);
 
-        Assertions.assertEquals(expected, actual);
+        assertEquals(expected, actual);
     }
 }
