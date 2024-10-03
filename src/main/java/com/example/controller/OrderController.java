@@ -57,9 +57,11 @@ public class OrderController {
 
     @PreAuthorize("hasAuthority('ROLE_USER')")
     @Operation(summary = "Get all items for order by order id")
-    @GetMapping("/{id}/items")
-    public List<OrderItemResponseDto> getAllItemsByOrderId(@PathVariable Long id) {
-        return orderService.getOrderItemsByOrderId(id);
+    @GetMapping("/{orderId}/items")
+    public List<OrderItemResponseDto> getAllItemsByOrderId(Authentication authentication,
+                                                           @PathVariable Long orderId) {
+        User user = (User) authentication.getPrincipal();
+        return orderService.getOrderItemsByOrderId(user,orderId);
     }
 
     @PreAuthorize("hasAuthority('ROLE_USER')")

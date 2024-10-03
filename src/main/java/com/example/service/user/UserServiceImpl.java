@@ -39,13 +39,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("Role not found"));
         user.setRoles(new HashSet<>(Set.of(userRole)));
         userRepository.save(user);
-        User userWithId = userRepository.findByEmail(requestDto.getEmail())
-                .orElseThrow(
-                        () -> new EntityNotFoundException(
-                        "Can`t find user by email:" + requestDto.getEmail()
-                        )
-                );
-        shoppingCartService.createShoppingCart(userWithId);
+        shoppingCartService.createShoppingCart(user);
         return userMapper.toDto(user);
     }
 }
