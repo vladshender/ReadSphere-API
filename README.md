@@ -319,6 +319,121 @@ http://localhost:8080/api/swagger-ui/index.html
 | `DELETE`      | `api/categores/{id}`     | ADMIN            |     Delete a category by id           |
 | `PUT`         |  `api/categores/{id}`    | ADMIN            |     Update category by id            |
 | `GET`         | `api/categores/{id}/books`   | USER              |   Get all books by category id  |  
+### API Category Guide
+<details>
+  <summary><h4><strong>GET api/categores</strong></h4></summary>
+  <strong>Request Body</strong>
+  <pre>
+    missing
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+    {
+        "id": 1,
+        "name": "Novel",
+        "description": "Novel books"
+    },
+    {
+        "id": 2,
+        "name": "Romance",
+        "description": "Romance  books"
+    },
+    {
+        "id": 3,
+        "name": "Science Fiction",
+        "description": "Science Fiction books"
+    }
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>GET api/categores/{id}</strong></h4></summary>
+    <strong>Request Body</strong>
+  <pre>
+    missing
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+{
+    "id": 1,
+    "name": "Novel",
+    "description": "Novel books"
+}
+  </pre>
+</details>
+<details>
+  <summary><h4><strong>POST api/categores</strong></h4></summary>
+  <strong>Request Body</strong>
+  <pre>
+{
+    "name":"Thriller",
+    "description":"Thriller books"
+}
+  </pre>  
+  <strong>Response Body</strong>
+  <pre>
+{
+    "id": 4,
+    "name": "Thriller",
+    "description": "Thriller books"
+}
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>DELETE api/categores/{id}</strong></h4></summary>
+  <strong>Request Body</strong>
+  <pre>
+    missing
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+    missing
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>PUT api/categores/{id}</strong></h4></summary>
+{
+    "name":"Thriller",
+    "description":"Thriller books"
+}
+  <strong>Response Body</strong>
+  <pre>
+    "id": 2,
+    "name": "Thriller",
+    "description": "Thriller books"
+  </pre>
+</details>
+
+<details>
+  <summary><h4><strong>GET api/categores/{id}/books</strong></h4></summary>
+  <strong>Endpoint</strong>
+  <pre>
+  missing
+  </pre>
+  <strong>Response Body</strong>
+  <pre>
+    {
+        "id": 1,
+        "title": "Example Book Title",
+        "author": "John Doe",
+        "isbn": "1924292334409",
+        "price": 99.99,
+        "description": "This is a brief description of the book.",
+        "coverImage": "https://example.com/image.jpg"
+    },
+    {
+        "id": 2,
+        "title": "Love",
+        "author": "Tom Love",
+        "isbn": "1924392334409",
+        "price": 350.00,
+        "description": "Book for LOve",
+        "coverImage": "sk3333333"
+    }
+  </pre>
+</details>
 
 ### Order
 | Method          | Endpoint   |          Role         |     Description                         |
