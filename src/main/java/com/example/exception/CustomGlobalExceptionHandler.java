@@ -1,5 +1,6 @@
 package com.example.exception;
 
+import com.example.exception.exceptions.EntityNotFoundException;
 import com.example.exception.exceptions.RegistrationException;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
@@ -51,6 +52,11 @@ public class CustomGlobalExceptionHandler extends ResponseEntityExceptionHandler
         body.put(ERRORS, List.of(ex.getMessage()));
 
         return new ResponseEntity<>(body, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
     }
 
     private String getErrorMessage(ObjectError e) {
