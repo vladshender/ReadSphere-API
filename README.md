@@ -43,7 +43,7 @@ Welcome to the ReadSphere API, a RESTful API designed for managing an online boo
 ### Setup
 1. **Clone the repository:**
 ```
-git clone https://github.com/vladshender/Online-Book-Store.git
+git clone https://github.com/vladshender/ReadSphere-API.git
 ```
 2. **Build the project:**
 ```
