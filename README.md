@@ -1,5 +1,5 @@
-# BookStore API 📚
-Welcome to the Online Bookstore API, a RESTful API designed for managing an online bookstore. It allows users to manage a catalog of books, shopping carts, and orders, and supports user registration and authentication via JWT. The API also includes role-based access control, enabling different levels of access for users and administrators.
+# ReadSphere API 📚
+Welcome to the ReadSphere API, a RESTful API designed for managing an online bookstore. It allows users to manage a catalog of books, shopping carts, and orders, and supports user registration and authentication via JWT. The API also includes role-based access control, enabling different levels of access for users and administrators.
 ## Technologies
 - **Java 17**: Core programming language for backend development.
 - **Spring Boot**: Framework for building microservices with minimal configuration.
@@ -713,5 +713,5 @@ missing
 ## Scheme of main interactions and functions in the project 
 ![my image](bookstorediagram.png)
 ##
-The Bookshop API provides a robust foundation for managing users, books, categories, and orders in an online bookstore. The technology stack provides scalability, security and ease of maintenance. Feel free to contribute or provide feedback to help us improve.
+The ReadSphere API provides a robust foundation for managing users, books, categories, and orders in an online bookstore. The technology stack provides scalability, security and ease of maintenance. Feel free to contribute or provide feedback to help us improve.
 ##
